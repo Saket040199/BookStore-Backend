@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.Bookstore.dto.UserDataDTO;
+import com.bridgelabz.Bookstore.dto.UserLoginDTO;
 import com.bridgelabz.Bookstore.exception.UserDataException;
 import com.bridgelabz.Bookstore.model.UserData;
 import com.bridgelabz.Bookstore.repository.UserDataRepository;
@@ -63,5 +64,45 @@ public class UserService implements IUserDataService {
 		}
 		userId.get().isVerified=true;
 		userdatarepo.save(userId.get());
+	}
+	
+	@Override
+	public String userLogin(UserLoginDTO userLoginDto) {
+		  Optional<UserData> userEmail = userdatarepo.findByEmailID(userLoginDto.getEmailId());
+		  if (!userEmail.isPresent()) {
+	            throw new UserDataException(UserDataException.ExceptionTypes.EMAIL_NOT_FOUND);
+	      }
+		  if(userEmail.get().isVerified){
+	            boolean password = bCryptPasswordEncoder.matches(userLoginDto.password, userEmail.get().password);
+	            if (!password) {
+	                throw new UserDataException(UserDataException.ExceptionTypes.PASSWORD_NOT_FOUND);
+	            }
+	            String tokenString = jwtToken.generateLoginToken(userEmail.get());
+	            return tokenString;
+	        }
+	        throw  new UserDataException(UserDataException.ExceptionTypes.EMAIL_INVALID);
+	}
+	
+	@Override
+    public String sendPasswordResetLink(String email) throws MessagingException {
+        UserData userdata = userdatarepo.findByEmailID(email)
+        		            .orElseThrow(() -> new UserDataException(UserDataException.ExceptionTypes.EMAIL_NOT_FOUND));
+        String token = jwtToken.generateVerificationtoken(userdata);
+        String urlToken = "Link provided to RESET your password \n"
+                           +"http://localhost:8080/user/reset/password/" 
+        		           +token;
+        emailService.sendMail(urlToken, "To RESET Password", userdata.emailID);
+        return "The link to RESET Password is sent";
+    }
+	
+	@Override
+	public String resetPassword(String password, String urlToken) {
+		Long userId = jwtToken.decodeJWT(urlToken);
+		UserData userdata = userdatarepo.findById(userId)
+				             .orElseThrow(() -> new UserDataException(UserDataException.ExceptionTypes.USER_NOT_FOUND));
+		String encodePassword = bCryptPasswordEncoder.encode(password);
+		userdata.password=encodePassword;
+		userdatarepo.save(userdata);
+        return "Password is Successfully Reset";
 	}
 }
