@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ import com.bridgelabz.Bookstore.dto.UserLoginDTO;
 import com.bridgelabz.Bookstore.model.UserData;
 import com.bridgelabz.Bookstore.service.IUserDataService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserDataControllers {
@@ -45,10 +47,11 @@ public class UserDataControllers {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/login")
-    public ResponseEntity userlogin(@Valid @RequestBody UserLoginDTO userLoginDTO, HttpServletResponse httpServletResponse) {
+    public ResponseEntity<ResponseDTO> userlogin(@Valid @RequestBody UserLoginDTO userLoginDTO, HttpServletResponse httpServletResponse) {
         String userLogin = userservice.userLogin(userLoginDTO);
         httpServletResponse.setHeader("Authorization", userLogin);
-        return new ResponseEntity("LOGIN SUCCESSFULL", HttpStatus.OK);
+        ResponseDTO response = new ResponseDTO("Login successful", userLogin); 
+        return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
     }
 	
 	@PostMapping("/reset/link")
