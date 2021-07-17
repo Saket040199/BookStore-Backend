@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ import com.bridgelabz.Bookstore.service.IUserDataService;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin
 public class UserDataControllers {
 	
 	@Autowired
@@ -51,9 +53,9 @@ public class UserDataControllers {
         return new ResponseEntity("LOGIN SUCCESSFULL", HttpStatus.OK);
     }
 	
-	@PostMapping("/reset/link")
-	public ResponseEntity<ResponseDTO> sendResetLink(@RequestParam(value = "emailID") String emailID) throws MessagingException {
-		String link = userservice.sendPasswordResetLink(emailID);
+	@PostMapping("/reset/link/{emailId}")
+	public ResponseEntity<ResponseDTO> sendResetLink(@PathVariable(value = "emailId") String emailId) throws MessagingException {
+		String link = userservice.sendPasswordResetLink(emailId);
 		ResponseDTO respdto = new ResponseDTO("Reset Link Sent successfully", link);
 		return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);
 	}

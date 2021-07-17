@@ -88,8 +88,7 @@ public class UserService implements IUserDataService {
         UserData userdata = userdatarepo.findByEmailID(email)
         		            .orElseThrow(() -> new UserDataException(UserDataException.ExceptionTypes.EMAIL_NOT_FOUND));
         String token = jwtToken.generateVerificationtoken(userdata);
-        String urlToken = "Link provided to RESET your password \n"
-                           +"http://localhost:8080/user/reset/password/" 
+        String urlToken = "Link provided to RESET your password :               \n"
         		           +token;
         emailService.sendMail(urlToken, "To RESET Password", userdata.emailID);
         return "The link to RESET Password is sent";
