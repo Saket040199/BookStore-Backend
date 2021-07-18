@@ -19,12 +19,13 @@ public @Data class UserData {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long userId;
+	@Type(type="uuid-char")
+	private UUID userId;
 	
 	private String fullName;
 	private String phoneNumber;
-	public String emailID;
-	public String password;
+	private String emailID;
+	private String password;
 	public boolean isVerified;
     public LocalDateTime createdAt = LocalDateTime.now();
      
@@ -37,7 +38,7 @@ public @Data class UserData {
 		this.password = userdto.getPassword();
 	}
 
-	public UserData(Long userId, UserDataDTO userdto) {
+	public UserData(UUID userId, UserDataDTO userdto) {
 		this.userId = userId;
 		this.fullName = userdto.getFullName();
 		this.phoneNumber = userdto.getPhoneNumber();

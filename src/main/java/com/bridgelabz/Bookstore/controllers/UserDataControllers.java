@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
+import com.bridgelabz.Bookstore.dto.ResetPasswordDto;
 import com.bridgelabz.Bookstore.dto.ResponseDTO;
 import com.bridgelabz.Bookstore.dto.UserDataDTO;
 import com.bridgelabz.Bookstore.dto.UserLoginDTO;
@@ -39,14 +40,12 @@ public class UserDataControllers {
 		return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GetMapping("/verify/email/{tokenId}")
-	public ResponseEntity verifyEmail(@PathVariable String tokenId) {
+	public RedirectView verifyEmail(@PathVariable String tokenId) {
 		userservice.verifyEmail(tokenId);
-		return new ResponseEntity("Email is successfully verified", HttpStatus.OK);	
+		return new RedirectView("http://localhost:3000/userauth");
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@PostMapping("/login")
     public ResponseEntity<ResponseDTO> userlogin(@Valid @RequestBody UserLoginDTO userLoginDTO, HttpServletResponse httpServletResponse) {
         String userLogin = userservice.userLogin(userLoginDTO);
@@ -56,17 +55,17 @@ public class UserDataControllers {
     }
 	
 	@PostMapping("/reset/link/{emailId}")
-	public ResponseEntity<ResponseDTO> sendResetLink(@PathVariable(value = "emailId") String emailId) throws MessagingException {
-		String link = userservice.sendPasswordResetLink(emailId);
-		ResponseDTO respdto = new ResponseDTO("Reset Link Sent successfully", link);
+	public ResponseEntity<ResponseDTO> sendResetLink(@PathVariable(value = "emailId") String emailId, HttpServletResponse httpServletResponse) throws MessagingException {
+		String token=userservice.sendPasswordResetLink(emailId);
+		
+		ResponseDTO respdto = new ResponseDTO("Reset Link Sent successfully",token);
 		return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);
 	}
 	
 	@PutMapping("/reset/password")
-	public ResponseEntity<ResponseDTO> setNewPassword(@RequestParam(value = "password") String password,
-			                                          @RequestParam(value = "token") String urltoken) {
-		String setpassword = userservice.resetPassword(password, urltoken);
-		ResponseDTO respdto = new ResponseDTO("New Password has been set successfully", setpassword);
-		return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);	
+	public ResponseEntity<ResponseDTO> setNewPassword(@RequestBody ResetPasswordDto resetDto) {
+	String setpassword = userservice.resetPassword(resetDto);
+	ResponseDTO respdto = new ResponseDTO("New Password has been set successfully", setpassword);
+	return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);
 	}
 }
