@@ -23,7 +23,7 @@ import com.bridgelabz.Bookstore.dto.UserLoginDTO;
 import com.bridgelabz.Bookstore.model.UserData;
 import com.bridgelabz.Bookstore.service.IUserDataService;
 
-@CrossOrigin
+
 @RestController
 @RequestMapping("/user")
 @CrossOrigin

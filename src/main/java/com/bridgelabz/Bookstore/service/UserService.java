@@ -35,8 +35,9 @@ public class UserService implements IUserDataService {
 	public UserData createNewUser(UserDataDTO userdto) {
 		Optional<UserData> checkEmailId = userdatarepo.findByEmailID(userdto.getEmailId());
 		if(checkEmailId.isPresent()) {
-			throw new UserDataException(UserDataException.ExceptionTypes.USER_ALREADY_PRESENT);
-		}else {
+			throw new UserDataException("User already exists with " + userdto.getEmailId() + " email Id");
+		}
+		else {
 			String password = bCryptPasswordEncoder.encode(userdto.getPassword());	
 			userdto.setPassword(password);
 		    UserData userdata = new UserData(userdto.getFullName(),
@@ -60,7 +61,7 @@ public class UserService implements IUserDataService {
 		Long token = jwtToken.decodeJWT(tokenId);
 		Optional<UserData> userId= userdatarepo.findById(token);
 		if(!userId.isPresent()) {
-			throw new UserDataException(UserDataException.ExceptionTypes.USER_NOT_FOUND); 
+			throw new UserDataException(("User is not PRESESNT")); 
 		}
 		userId.get().isVerified=true;
 		userdatarepo.save(userId.get());
@@ -70,25 +71,25 @@ public class UserService implements IUserDataService {
 	public String userLogin(UserLoginDTO userLoginDto) {
 		  Optional<UserData> userEmail = userdatarepo.findByEmailID(userLoginDto.getEmailId());
 		  if (!userEmail.isPresent()) {
-	            throw new UserDataException(UserDataException.ExceptionTypes.EMAIL_NOT_FOUND);
+	            throw new UserDataException("User with " + userLoginDto.getEmailId() + "  is not PRESESNT");
 	      }
 		  if(userEmail.get().isVerified){
 	            boolean password = bCryptPasswordEncoder.matches(userLoginDto.password, userEmail.get().password);
 	            if (!password) {
-	                throw new UserDataException(UserDataException.ExceptionTypes.PASSWORD_NOT_FOUND);
+	                throw new UserDataException("Password is not matched");
 	            }
 	            String tokenString = jwtToken.generateLoginToken(userEmail.get());
 	            return tokenString;
 	        }
-	        throw  new UserDataException(UserDataException.ExceptionTypes.EMAIL_INVALID);
+	        throw  new UserDataException("Invalid User");
 	}
 	
 	@Override
     public String sendPasswordResetLink(String email) throws MessagingException {
         UserData userdata = userdatarepo.findByEmailID(email)
-        		            .orElseThrow(() -> new UserDataException(UserDataException.ExceptionTypes.EMAIL_NOT_FOUND));
+        		            .orElseThrow(() -> new UserDataException("Invalid Email Id"));
         String token = jwtToken.generateVerificationtoken(userdata);
-        String urlToken = "Link provided to RESET your password :               \n"
+        String urlToken = "Token Id :"
         		           +token;
         emailService.sendMail(urlToken, "To RESET Password", userdata.emailID);
         return "The link to RESET Password is sent";
@@ -98,7 +99,7 @@ public class UserService implements IUserDataService {
 	public String resetPassword(String password, String urlToken) {
 		Long userId = jwtToken.decodeJWT(urlToken);
 		UserData userdata = userdatarepo.findById(userId)
-				             .orElseThrow(() -> new UserDataException(UserDataException.ExceptionTypes.USER_NOT_FOUND));
+				             .orElseThrow(() -> new UserDataException("User not found"));
 		String encodePassword = bCryptPasswordEncoder.encode(password);
 		userdata.password=encodePassword;
 		userdatarepo.save(userdata);
