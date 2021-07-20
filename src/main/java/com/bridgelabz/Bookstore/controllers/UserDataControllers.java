@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
@@ -40,10 +41,11 @@ public class UserDataControllers {
 		return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/verify/email/{tokenId}")
-	public RedirectView verifyEmail(@PathVariable String tokenId) {
+	public ResponseEntity verifyEmail(@PathVariable String tokenId) {
 		userservice.verifyEmail(tokenId);
-		return new RedirectView("http://localhost:3000/userauth");
+		return new ResponseEntity("Link sent", HttpStatus.OK);
 	}
 	
 	@PostMapping("/login")
@@ -62,9 +64,10 @@ public class UserDataControllers {
 		return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);
 	}
 	
-	@PutMapping("/reset/password")
-	public ResponseEntity<ResponseDTO> setNewPassword(@RequestBody ResetPasswordDto resetDto) {
-	String setpassword = userservice.resetPassword(resetDto);
+	@PutMapping(value="/reset/password")
+	public ResponseEntity<ResponseDTO> setNewPassword(@RequestHeader("tokenId") String tokenId, @RequestBody ResetPasswordDto resetDto) {
+	
+	String setpassword = userservice.resetPassword(resetDto, tokenId);
 	ResponseDTO respdto = new ResponseDTO("New Password has been set successfully", setpassword);
 	return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);
 	}
