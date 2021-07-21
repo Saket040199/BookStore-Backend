@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,12 +35,12 @@ public class BookDataController {
 		return new ResponseEntity<ResponseDTO>(responseDto, HttpStatus.OK);
 	}
 
-	@GetMapping("/getallbook")
-	public ResponseEntity<ResponseDTO> getAllBook() {
-		List<BookData> allBooks = bookService.getAllBooks();
-		ResponseDTO responseDto = new ResponseDTO("Book Retrieved Successfully!!", allBooks);
-		return new ResponseEntity<ResponseDTO>(responseDto, HttpStatus.OK);
-	}
+	@GetMapping("/books/{pageNo}")
+    public ResponseEntity<ResponseDTO> getBook(@PathVariable Integer pageNo) {
+        List<BookData> bookDetailsList = bookService.getAllBooks(pageNo, 12);
+        ResponseDTO responseDTO = new ResponseDTO( "Response Successful",bookDetailsList);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
 
 	@GetMapping("/getbookcount")
 	public ResponseEntity<ResponseDTO> getBookCount() {
@@ -47,5 +48,26 @@ public class BookDataController {
 		ResponseDTO responseDto = new ResponseDTO("Total Book Count!!", bookCount);
 		return new ResponseEntity<ResponseDTO>(responseDto, HttpStatus.OK);
 	}
+	
+	@GetMapping("/books/HighToLow/{pageNo}")
+    public ResponseEntity<ResponseDTO> getBooksByHighToLow(@PathVariable Integer pageNo) {
+        List<BookData> bookDetailsList = bookService.getAllBookByPriceHighToLow(pageNo, 12);
+        ResponseDTO responseDTO = new ResponseDTO( "Response Successful",bookDetailsList);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+	
+	@GetMapping("/books/LowToHigh/{pageNo}")
+    public ResponseEntity<ResponseDTO> getBooksByLowToHigh(@PathVariable Integer pageNo) {
+        List<BookData> bookDetailsList = bookService.getAllBookByPriceLowToHigh(pageNo, 12);
+        ResponseDTO responseDTO = new ResponseDTO( "Response Successful",bookDetailsList);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+	
+	@GetMapping("/books/Arraival/{pageNo}")
+    public ResponseEntity<ResponseDTO> getBooksByNewArrival(@PathVariable Integer pageNo) {
+        List<BookData> bookDetailsList = bookService.getAllBookByNewArrival(pageNo, 12);
+        ResponseDTO responseDTO = new ResponseDTO( "Response Successful",bookDetailsList);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
 
 }

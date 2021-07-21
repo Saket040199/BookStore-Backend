@@ -1,5 +1,6 @@
 package com.bridgelabz.Bookstore.model;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -49,6 +50,8 @@ public class BookData {
 
 	@Column(name = "book_image")
 	private String bookImage;
+	
+	public LocalDateTime createdAt = LocalDateTime.now();
 
 	public BookData(UUID bookId, BookDataDto bookDataDto) {
 		this.bookId = bookId;

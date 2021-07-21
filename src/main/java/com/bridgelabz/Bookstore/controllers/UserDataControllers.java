@@ -25,50 +25,50 @@ import com.bridgelabz.Bookstore.dto.UserLoginDTO;
 import com.bridgelabz.Bookstore.model.UserData;
 import com.bridgelabz.Bookstore.service.IUserDataService;
 
-
 @RestController
 @RequestMapping("/user")
 @CrossOrigin
 public class UserDataControllers {
-	
+
 	@Autowired
 	private IUserDataService userservice;
-	
+
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> addUserData(@Valid @RequestBody UserDataDTO userdto) {
-		UserData userdata=userservice.createNewUser(userdto);
+		UserData userdata = userservice.createNewUser(userdto);
 		ResponseDTO respdto = new ResponseDTO("Created New User Successfully", userdata);
 		return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);
 	}
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GetMapping("/verify/email/{tokenId}")
 	public ResponseEntity verifyEmail(@PathVariable String tokenId) {
 		userservice.verifyEmail(tokenId);
 		return new ResponseEntity("Link sent", HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/login")
-    public ResponseEntity<ResponseDTO> userlogin(@Valid @RequestBody UserLoginDTO userLoginDTO, HttpServletResponse httpServletResponse) {
-        String userLogin = userservice.userLogin(userLoginDTO);
-        httpServletResponse.setHeader("Authorization", userLogin);
-        ResponseDTO response = new ResponseDTO("Login successful", userLogin); 
-        return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
-    }
-	
+	public ResponseEntity<ResponseDTO> userlogin(@Valid @RequestBody UserLoginDTO userLoginDTO) {
+		String userLogin = userservice.userLogin(userLoginDTO);
+		ResponseDTO response = new ResponseDTO("Login successful", userLogin);
+		return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
+	}
+
 	@PostMapping("/reset/link/{emailId}")
-	public ResponseEntity<ResponseDTO> sendResetLink(@PathVariable(value = "emailId") String emailId, HttpServletResponse httpServletResponse) throws MessagingException {
-		String token=userservice.sendPasswordResetLink(emailId);
-		
-		ResponseDTO respdto = new ResponseDTO("Reset Link Sent successfully",token);
+	public ResponseEntity<ResponseDTO> sendResetLink(@PathVariable(value = "emailId") String emailId,
+			HttpServletResponse httpServletResponse) throws MessagingException {
+		String token = userservice.sendPasswordResetLink(emailId);
+
+		ResponseDTO respdto = new ResponseDTO("Reset Link Sent successfully", token);
 		return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);
 	}
-	
-	@PutMapping(value="/reset/password")
-	public ResponseEntity<ResponseDTO> setNewPassword(@RequestHeader("tokenId") String tokenId, @RequestBody ResetPasswordDto resetDto) {
-	
-	String setpassword = userservice.resetPassword(resetDto, tokenId);
-	ResponseDTO respdto = new ResponseDTO("New Password has been set successfully", setpassword);
-	return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);
+
+	@PutMapping(value = "/reset/password")
+	public ResponseEntity<ResponseDTO> setNewPassword(@RequestHeader("tokenId") String tokenId,
+			@RequestBody ResetPasswordDto resetDto) {
+
+		String setpassword = userservice.resetPassword(resetDto, tokenId);
+		ResponseDTO respdto = new ResponseDTO("New Password has been set successfully", setpassword);
+		return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);
 	}
 }
