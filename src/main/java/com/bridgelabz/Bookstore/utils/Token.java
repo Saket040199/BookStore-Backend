@@ -3,6 +3,9 @@ package com.bridgelabz.Bookstore.utils;
 import java.util.Date;
 import java.util.UUID;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
+
 import com.bridgelabz.Bookstore.model.UserData;
 
 import io.jsonwebtoken.Claims;
@@ -11,6 +14,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+@Service
 public class Token {
 	
 	SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;

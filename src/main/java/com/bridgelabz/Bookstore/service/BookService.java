@@ -72,7 +72,7 @@ public class BookService implements IBookService {
 		Page<BookData> bookList = bookDataRepo.findAll(paging);
 
 		if (!bookList.hasContent()) {
-           throw new BookDataException("No Books Were Found On The Page");
+			throw new BookDataException("No Books Were Found On The Page");
 		}
 		return bookList.getContent();
 	}
@@ -80,5 +80,15 @@ public class BookService implements IBookService {
 	@Override
 	public Long getBooksCount() {
 		return bookDataRepo.count();
+	}
+
+	@Override
+	public List<BookData> searchBookByName(String name) {
+		List<BookData> bookList = bookDataRepo.findByBookNameContaining(name);
+		if (bookList.isEmpty()) {
+			throw new BookDataException("No Books Were Found On The Page");
+		}
+		return bookList;
+
 	}
 }

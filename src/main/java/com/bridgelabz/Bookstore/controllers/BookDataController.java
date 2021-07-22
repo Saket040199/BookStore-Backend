@@ -69,5 +69,14 @@ public class BookDataController {
         ResponseDTO responseDTO = new ResponseDTO( "Response Successful",bookDetailsList);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
+	
+	@GetMapping("/find/{name}")
+	public ResponseEntity<ResponseDTO>findByName(
+						@PathVariable String name)
+	{
+		List<BookData> addressBookData = bookService.searchBookByName(name);
+		ResponseDTO responseDto = new ResponseDTO("The following names are", addressBookData);
+		return new ResponseEntity<ResponseDTO>(responseDto, HttpStatus.OK);
+	}
 
 }

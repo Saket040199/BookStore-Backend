@@ -17,6 +17,8 @@ public interface IBookService  {
 	
 	List<BookData> getAllBookByNewArrival(Integer pageNo, Integer pageSize);
 	
+	List<BookData> searchBookByName(String name);
+	
 	Long getBooksCount();
 
 }
