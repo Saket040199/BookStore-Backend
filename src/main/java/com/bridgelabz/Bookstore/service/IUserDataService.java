@@ -15,5 +15,5 @@ public interface IUserDataService {
 	public String sendPasswordResetLink(String emailId) throws MessagingException;
 	//public long otpGenerator();
 	//public String resetPassword(String password, String urlToken);
-	public String resetPassword(ResetPasswordDto resetPasswordDto);
+	public String resetPassword(ResetPasswordDto resetPasswordDto, String token);
 }

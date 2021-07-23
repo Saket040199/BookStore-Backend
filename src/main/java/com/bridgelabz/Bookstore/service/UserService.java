@@ -54,7 +54,7 @@ public class UserService implements IUserDataService {
 		    		                         password);
 		    UserData savedata = userdatarepo.save(userdata);
 		    String tokenId = jwtToken.generateVerificationtoken(userdata);
-		    String requestUrl ="http://localhost:8080/user/verify/email/"+tokenId;
+		    String requestUrl ="http://localhost:3000/verify/"+tokenId;
 		    try {
 	            emailService.sendMail(requestUrl,"the verification link is ", userdto.getEmailId());
 	        } catch (MessagingException e) {
@@ -96,24 +96,21 @@ public class UserService implements IUserDataService {
     public String sendPasswordResetLink(String email) throws MessagingException {
         UserData userdata = userdatarepo.findByEmailID(email)
         		            .orElseThrow(() -> new UserDataException("Invalid Email Id"));
-        long otp = otpSender.otpGenerater(); 
+        //long otp = otpSender.otpGenerater(); 
         String token = jwtToken.generateVerificationtoken(userdata);
-        OtpModel otpModel = new OtpModel(otp,token);
-        otprepo.save(otpModel);
-        String urlOTP = "OPT for reset Password :"+ otp;
-        emailService.sendMail(urlOTP, "To RESET Password", userdata.getEmailID());
+        //OtpModel otpModel = new OtpModel(otp,token);
+        //otprepo.save(otpModel);
+        String urlToken = "http://localhost:3000/reset/"+ token;
+        emailService.sendMail(urlToken, "To RESET Password", userdata.getEmailID());
         return token;
 	}
 	
 	@Override
-	public String resetPassword(ResetPasswordDto resetPasswordDto) {
-		UUID userId = jwtToken.decodeJWT(resetPasswordDto.getToken());
+	public String resetPassword(ResetPasswordDto resetPasswordDto , String token) {
+		UUID userId = jwtToken.decodeJWT(token);
 		UserData userdata = userdatarepo.findById(userId)
 				             .orElseThrow(() -> new UserDataException("User not found"));
-		OtpModel otpModel =otprepo.findByToken(resetPasswordDto.getToken());
-		if(otpModel.getOtp()!=resetPasswordDto.getOtp()) {
-		throw new UserDataException("Otp is not matched");
-		}
+		
 		String encodePassword = bCryptPasswordEncoder.encode(resetPasswordDto.getPassword());
 		userdata.setPassword(encodePassword);
 		userdatarepo.save(userdata);

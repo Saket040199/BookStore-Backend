@@ -1,12 +1,17 @@
 package com.bridgelabz.Bookstore.model;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -33,7 +38,7 @@ public class BookData {
 	@Column(name = "book_name")
 	private String bookName;
 
-	@Column(name = "book_authore")
+	@Column(name = "book_author")
 	private String bookAuthor;
 
 	private Double rating;
@@ -49,6 +54,11 @@ public class BookData {
 
 	@Column(name = "book_image")
 	private String bookImage;
+	
+	public LocalDateTime createdAt = LocalDateTime.now();
+	
+	@OneToMany(mappedBy="bookData",cascade = CascadeType.ALL)
+    private List<BookCart> bookCarts = new ArrayList<>();
 
 	public BookData(UUID bookId, BookDataDto bookDataDto) {
 		this.bookId = bookId;
