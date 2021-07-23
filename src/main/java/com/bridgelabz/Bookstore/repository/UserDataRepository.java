@@ -13,5 +13,7 @@ import com.bridgelabz.Bookstore.model.UserData;
 public interface UserDataRepository extends JpaRepository<UserData, UUID>  {
 	
 	Optional<UserData> findByEmailID(String emailId);
+	
+	//Optional<UserData> findByUserData(UserData data);
 
 }

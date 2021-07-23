@@ -1,12 +1,17 @@
 package com.bridgelabz.Bookstore.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
 
@@ -28,6 +33,10 @@ public @Data class UserData {
 	private String password;
 	public boolean isVerified;
     public LocalDateTime createdAt = LocalDateTime.now();
+    
+    @OneToMany(mappedBy="userData",cascade = CascadeType.ALL)
+    //@JoinColumn(name="cartId")
+    private List<CartDetails> cartDetailsList = new ArrayList<>();
      
     public UserData() { }
     
