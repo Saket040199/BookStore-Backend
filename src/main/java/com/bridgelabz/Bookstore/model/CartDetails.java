@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 
 import com.bridgelabz.Bookstore.dto.CartDetailsDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,7 +43,7 @@ public class CartDetails {
 	private BookData bookData;
 	
 //	UUID bookId=bookData.getBookId();
-	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="userId",referencedColumnName = "userId")
 	private UserData userData;

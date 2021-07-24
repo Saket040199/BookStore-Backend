@@ -8,7 +8,11 @@ import com.bridgelabz.Bookstore.model.CartDetails;
 
 public interface ICartDetails {
 	
-	List<CartDetails> getAllBooks(String Token);
+	List<CartDetails> getAllCarts(String Token);
 	
 	String addBookToCart(String Token, CartDetailsDto cartDto, UUID bookId);
+
+	String updateCart(String token, UUID cartId, Long quantity);
+
+	String deleteCart(String token, UUID cartId);
 }
