@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Type;
 
 import com.bridgelabz.Bookstore.dto.UserDataDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -34,6 +35,7 @@ public @Data class UserData {
 	public boolean isVerified;
     public LocalDateTime createdAt = LocalDateTime.now();
     
+    @JsonIgnore
     @OneToMany(mappedBy="userData",cascade = CascadeType.ALL)
     //@JoinColumn(name="cartId")
     private List<CartDetails> cartDetailsList = new ArrayList<>();

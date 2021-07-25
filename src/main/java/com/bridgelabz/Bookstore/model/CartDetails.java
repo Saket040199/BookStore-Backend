@@ -38,6 +38,7 @@ public class CartDetails {
 	
 	private String status;
 	
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="bookId",referencedColumnName = "book_id")
 	private BookData bookData;

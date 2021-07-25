@@ -19,7 +19,9 @@ import com.bridgelabz.Bookstore.dto.BookDataDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @NoArgsConstructor
@@ -44,6 +46,8 @@ public class BookData {
 
 	@Column(name = "book_price")
 	private Double bookPrice;
+	
+	private Double bookOldPrice;
 
 	@Column(name = "book_quantity")
 	private Long bookQuantity;
@@ -62,6 +66,7 @@ public class BookData {
 		this.bookAuthor = bookDataDto.getBookAuthor();
 		this.rating = bookDataDto.getRating();
 		this.bookPrice = bookDataDto.getBookPrice();
+		this.bookOldPrice=bookDataDto.getBookOldPrice();
 		this.bookQuantity = bookDataDto.getBookQuantity();
 		this.bookDescription = bookDataDto.getBookDescription();
 		this.bookImage = bookDataDto.getBookImage();
@@ -72,6 +77,7 @@ public class BookData {
 		this.bookAuthor = bookDataDto.getBookAuthor();
 		this.rating = bookDataDto.getRating();
 		this.bookPrice = bookDataDto.getBookPrice();
+		this.bookOldPrice=bookDataDto.getBookOldPrice();
 		this.bookQuantity = bookDataDto.getBookQuantity();
 		this.bookDescription = bookDataDto.getBookDescription();
 		this.bookImage = bookDataDto.getBookImage();
