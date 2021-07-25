@@ -38,16 +38,15 @@ public class CartDetails {
 	
 	private String status;
 	
-	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="bookId",referencedColumnName = "book_id")
 	private BookData bookData;
 	
 //	UUID bookId=bookData.getBookId();
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name="userId",referencedColumnName = "userId")
-	private UserData userData;
+//	@JsonIgnore
+//	@ManyToOne
+//	@JoinColumn(name="userId",referencedColumnName = "userId")
+//	private UserData userData;
 	
 	public UUID getUserId(UserData userData) {
 		return userData.getUserId();
@@ -57,11 +56,11 @@ public class CartDetails {
 		return bookData.getBookId();
 	}
 	
-	public CartDetails( CartDetailsDto cartDetailsdto, BookData bookData, UserData userData) {
+	public CartDetails( CartDetailsDto cartDetailsdto, BookData bookData) {
 		this.quantity=cartDetailsdto.getQuantity();
 		this.status=cartDetailsdto.getStatus();
 		this.bookData=bookData;
-		this.userData=userData;
+		//this.userData=userData;
 	}
 	
 	public CartDetails(CartDetailsDto cartDetailsdto) {

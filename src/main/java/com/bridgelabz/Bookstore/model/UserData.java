@@ -35,9 +35,7 @@ public @Data class UserData {
 	public boolean isVerified;
     public LocalDateTime createdAt = LocalDateTime.now();
     
-    @JsonIgnore
-    @OneToMany(mappedBy="userData",cascade = CascadeType.ALL)
-    //@JoinColumn(name="cartId")
+    @OneToMany
     private List<CartDetails> cartDetailsList = new ArrayList<>();
      
     public UserData() { }

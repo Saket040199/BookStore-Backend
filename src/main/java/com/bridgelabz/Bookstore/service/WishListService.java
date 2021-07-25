@@ -7,31 +7,29 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bridgelabz.Bookstore.dto.CartDetailsDto;
-import com.bridgelabz.Bookstore.exception.BookDataException;
 import com.bridgelabz.Bookstore.exception.UserDataException;
 import com.bridgelabz.Bookstore.model.BookData;
-import com.bridgelabz.Bookstore.model.CartDetails;
 import com.bridgelabz.Bookstore.model.UserData;
+import com.bridgelabz.Bookstore.model.WishList;
 import com.bridgelabz.Bookstore.repository.BookDataRepo;
-import com.bridgelabz.Bookstore.repository.CartDetailsRepository;
 import com.bridgelabz.Bookstore.repository.UserDataRepository;
+import com.bridgelabz.Bookstore.repository.WishListRepository;
 import com.bridgelabz.Bookstore.utils.Token;
 
 @Service
-public class CartDetailsService implements ICartDetails {
+public class WishListService implements IWishListService {
 
 	@Autowired
 	Token jwtToken;
 
 	@Autowired
-	CartDetailsRepository cartDetailsRepo;
+	private WishListRepository wishListRepository;
 
 	@Autowired
-	UserDataRepository userDataRepo;
+	private UserDataRepository userDataRepo;
 
 	@Autowired
-	BookDataRepo bookDataRepo;
+	private BookDataRepo bookDataRepo;
 
 	public UserData isUserPresent(String token) {
 		UUID userId = jwtToken.decodeJWT(token);
@@ -44,45 +42,34 @@ public class CartDetailsService implements ICartDetails {
 	}
 
 	@Override
-	public List<CartDetails> getAllCarts(String token) {
+	public List<WishList> getBooks(String token) {
 		UserData userData = isUserPresent(token);
 		UUID userId = userData.getUserId();
-		
+
 //        if (cartDetailsList.size() == 0)
 //            throw new BookDataException("No Books Found");
-		return cartDetailsRepo.findAll();
+		return wishListRepository.findAll();
 	}
 
 	@Override
-	public String addBookToCart(String Token, CartDetailsDto cartDto, UUID bookId) {
-		UserData userData = this.isUserPresent(Token);
-		UUID userId = userData.getUserId();
-		BookData bookData = bookDataRepo.findByBookId(bookId);
-//		 System.out.println("Service cart details"+userData);
-//		 System.out.println("Service cart details"+bookData);
-		CartDetails cartDetails = new CartDetails(cartDto, bookData);
-		//System.out.println("Service cart details" + cartDetails);
-		cartDetailsRepo.save(cartDetails);
-		return "Book added to cart sucessfully";
-	}
-
-	@Override
-	public String updateCart(String token, UUID cartId, Long quantity) {
+	public String addBookToWishList(String token, UUID bookId) {
 		UserData userData = this.isUserPresent(token);
 		UUID userId = userData.getUserId();
-		Optional<CartDetails> cartDetails = cartDetailsRepo.findById(cartId);
-		CartDetails cartData = cartDetails.get();
-		cartData.setQuantity(quantity);
-		cartDetailsRepo.save(cartData);
-		return "Cart updated sucessfully";
+		BookData bookData = bookDataRepo.findByBookId(bookId);
+		WishList wishList = new WishList(bookData);
+		wishListRepository.save(wishList);
+		return "Book added to WishList sucessfully";
+
 	}
+	
 
 	@Override
 	public String deleteCart(String token, UUID cartId) {
 		UserData userData = this.isUserPresent(token);
 		UUID userId = userData.getUserId();
-		cartDetailsRepo.deleteById(cartId);
+		wishListRepository.deleteById(cartId);
 		return "cart Deleted sucessfully";
 	}
+
 
 }

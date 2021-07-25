@@ -15,7 +15,7 @@ public interface CartDetailsRepository extends JpaRepository<CartDetails, UUID>{
 	
 	//Optional<UserData> findByUserData(UserData userData);
 	
-	@Query(value="select * from user_data where user_id:userId", nativeQuery = true)
-	List<CartDetails> findByUserId(UUID userId );
+//	@Query(value="select * from user_data where user_id:userId", nativeQuery = true)
+//	List<CartDetails> findByUserId(UUID userId );
 
 }
