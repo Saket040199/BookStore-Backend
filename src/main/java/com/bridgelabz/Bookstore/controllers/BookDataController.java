@@ -1,6 +1,7 @@
 package com.bridgelabz.Bookstore.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
@@ -40,6 +41,12 @@ public class BookDataController {
     public ResponseEntity<ResponseDTO> getBook(@PathVariable Integer pageNo) {
         List<BookData> bookDetailsList = bookService.getAllBooks(pageNo, 12);
         ResponseDTO responseDTO = new ResponseDTO( "Get Response Successful",bookDetailsList);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+	
+	@GetMapping("/{bookId}")
+    public ResponseEntity<ResponseDTO> getBookById(@PathVariable UUID bookId) {
+        ResponseDTO responseDTO = new ResponseDTO( "Get Response Successful",bookService.getBookById(bookId));
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 

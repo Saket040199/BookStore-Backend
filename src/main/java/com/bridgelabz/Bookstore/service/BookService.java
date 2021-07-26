@@ -2,6 +2,7 @@ package com.bridgelabz.Bookstore.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -35,11 +36,20 @@ public class BookService implements IBookService {
 	public List<BookData> getAllBooks(Integer pageNo, Integer pageSize) {
 		Pageable paging = PageRequest.of(pageNo, pageSize);
 		Page<BookData> bookList = bookDataRepo.findAll(paging);
-		if (!bookList.hasContent()) {
-			throw new BookDataException("No Books Were Found On The Page");
-		}
+//		if (!bookList.hasContent()) {
+//			throw new BookDataException("No Books Were Found On The Page");
+//		}
 		return bookList.getContent();
 	}
+	
+	@Override
+	public BookData getBookById(UUID bookId) {
+//		if (!bookList.hasContent()) {
+//			throw new BookDataException("No Books Were Found On The Page");
+//		}
+		return bookDataRepo.findByBookId(bookId);
+	}
+
 
 	@Override
 	public List<BookData> getAllBookByPriceHighToLow(Integer pageNo, Integer pageSize) {

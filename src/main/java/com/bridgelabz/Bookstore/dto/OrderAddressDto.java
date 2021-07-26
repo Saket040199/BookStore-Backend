@@ -13,4 +13,5 @@ public class OrderAddressDto {
 	private String city;
 	private String state;
 	private String address;
+	private String type;
 }
