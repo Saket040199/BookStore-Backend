@@ -32,6 +32,7 @@ public class WishListController {
 		ResponseDTO responseDTO = new ResponseDTO("Response Successful", cartDetailsList);
 		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
+	
 
 	@PostMapping("/addBookToWishList/{bookId}")
 	public ResponseEntity<ResponseDTO> addBookToWishList(@RequestHeader(value = "token") String token,
