@@ -1,6 +1,7 @@
 package com.bridgelabz.Bookstore.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.bridgelabz.Bookstore.dto.BookDataDto;
 import com.bridgelabz.Bookstore.model.BookData;
@@ -20,5 +21,7 @@ public interface IBookService  {
 	List<BookData> searchBookByName(String name);
 	
 	Long getBooksCount();
+	
+	BookData getBookById(UUID bookId);
 
 }

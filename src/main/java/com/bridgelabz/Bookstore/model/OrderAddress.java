@@ -20,7 +20,7 @@ public class OrderAddress {
 	private String address;
 	private String city;
 	private String State;
-	
+	private String type;
 	
 	public OrderAddress(OrderAddressDto orderAddressDto, Optional<OrderAddress> orderAddress) {
 	

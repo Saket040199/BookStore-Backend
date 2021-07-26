@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,7 @@ import com.bridgelabz.Bookstore.dto.ResponseDTO;
 import com.bridgelabz.Bookstore.model.WishList;
 import com.bridgelabz.Bookstore.service.IWishListService;
 
-
+@CrossOrigin
 @RestController
 public class WishListController {
 	
@@ -31,6 +32,7 @@ public class WishListController {
 		ResponseDTO responseDTO = new ResponseDTO("Response Successful", cartDetailsList);
 		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
+	
 
 	@PostMapping("/addBookToWishList/{bookId}")
 	public ResponseEntity<ResponseDTO> addBookToWishList(@RequestHeader(value = "token") String token,

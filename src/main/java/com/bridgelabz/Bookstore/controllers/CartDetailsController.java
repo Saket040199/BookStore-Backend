@@ -40,8 +40,6 @@ public class CartDetailsController {
 	
 	@PostMapping("/addBookToCart/{bookId}")
 	public ResponseEntity<ResponseDTO> addBookToCart(@RequestHeader(value="token") String token , @RequestBody CartDetailsDto cartDto, @PathVariable UUID bookId ) {
-		System.out.println("Token add To cart  "+token);
-		 System.out.println("Token add To cart  "+bookId);
 		String cartData = cartDetailsService.addBookToCart(token, cartDto, bookId);
 		System.out.println("Token add To cart  "+cartData);
 		ResponseDTO responseDTO = new ResponseDTO( "Response Successful",cartData);
