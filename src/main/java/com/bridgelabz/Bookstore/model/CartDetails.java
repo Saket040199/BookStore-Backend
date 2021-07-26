@@ -1,45 +1,70 @@
 package com.bridgelabz.Bookstore.model;
 
-import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
+import com.bridgelabz.Bookstore.dto.CartDetailsDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity
 @Table
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class CartDetails {
 	
-	 	@Id
-	    @GeneratedValue(strategy = GenerationType.AUTO)
-	 	@Type(type = "uuid-char")
-	    public UUID id;
-
-	    @OneToMany(mappedBy="cart",cascade = CascadeType.ALL)
-	    private List<BookCart> bookCarts;
-
-	    @OneToOne(cascade = CascadeType.ALL)
-	    @JsonIgnore
-	    @JoinColumn(name = "userId")
-	    private UserData user;
-	 	
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Type(type = "uuid-char")
+	private UUID cartId;
+	
+	private Long quantity;
+	
+	private String status;
+	
+	@OneToOne
+	@JoinColumn(name="bookId",referencedColumnName = "book_id")
+	private BookData bookData;
+	
+//	UUID bookId=bookData.getBookId();
+//	@JsonIgnore
+//	@ManyToOne
+//	@JoinColumn(name="userId",referencedColumnName = "userId")
+//	private UserData userData;
+	
+	public UUID getUserId(UserData userData) {
+		return userData.getUserId();
+	}
+	
+	public UUID getBookId(BookData bookData) {
+		return bookData.getBookId();
+	}
+	
+	public CartDetails( CartDetailsDto cartDetailsdto, BookData bookData) {
+		this.quantity=cartDetailsdto.getQuantity();
+		this.status=cartDetailsdto.getStatus();
+		this.bookData=bookData;
+		//this.userData=userData;
+	}
+	
+	public CartDetails(CartDetailsDto cartDetailsdto) {
+		this.quantity=cartDetailsdto.getQuantity();
+		this.status=cartDetailsdto.getStatus();
+	}
 }

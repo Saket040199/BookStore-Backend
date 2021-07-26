@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.Bookstore.dto.BookDataDto;
 import com.bridgelabz.Bookstore.dto.ResponseDTO;
+
 import com.bridgelabz.Bookstore.model.BookData;
 import com.bridgelabz.Bookstore.service.IBookService;
 
@@ -38,7 +39,7 @@ public class BookDataController {
 	@GetMapping("/books/{pageNo}")
     public ResponseEntity<ResponseDTO> getBook(@PathVariable Integer pageNo) {
         List<BookData> bookDetailsList = bookService.getAllBooks(pageNo, 12);
-        ResponseDTO responseDTO = new ResponseDTO( "Response Successful",bookDetailsList);
+        ResponseDTO responseDTO = new ResponseDTO( "Get Response Successful",bookDetailsList);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
@@ -52,7 +53,7 @@ public class BookDataController {
 	@GetMapping("/books/HighToLow/{pageNo}")
     public ResponseEntity<ResponseDTO> getBooksByHighToLow(@PathVariable Integer pageNo) {
         List<BookData> bookDetailsList = bookService.getAllBookByPriceHighToLow(pageNo, 12);
-        ResponseDTO responseDTO = new ResponseDTO( "Response Successful",bookDetailsList);
+        ResponseDTO responseDTO = new ResponseDTO( "High To Low Response Successful",bookDetailsList);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 	
@@ -63,7 +64,7 @@ public class BookDataController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 	
-	@GetMapping("/books/Arraival/{pageNo}")
+	@GetMapping("/books/NewArraival/{pageNo}")
     public ResponseEntity<ResponseDTO> getBooksByNewArrival(@PathVariable Integer pageNo) {
         List<BookData> bookDetailsList = bookService.getAllBookByNewArrival(pageNo, 12);
         ResponseDTO responseDTO = new ResponseDTO( "Response Successful",bookDetailsList);

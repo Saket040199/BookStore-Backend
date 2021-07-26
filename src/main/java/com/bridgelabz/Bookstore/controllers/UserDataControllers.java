@@ -1,5 +1,7 @@
 package com.bridgelabz.Bookstore.controllers;
 
+import java.util.List;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -24,6 +26,7 @@ import com.bridgelabz.Bookstore.dto.ResponseDTO;
 import com.bridgelabz.Bookstore.dto.UserDataDTO;
 import com.bridgelabz.Bookstore.dto.UserLoginDTO;
 import com.bridgelabz.Bookstore.model.UserData;
+import com.bridgelabz.Bookstore.repository.UserDataRepository;
 import com.bridgelabz.Bookstore.service.IUserDataService;
 
 @RestController
@@ -33,6 +36,14 @@ public class UserDataControllers {
 
 	@Autowired
 	private IUserDataService userservice;
+	
+	@Autowired
+	private UserDataRepository userRepo;
+
+	@GetMapping("/getcartdetails")
+	public List<UserData> getCartData() {
+		return userRepo.findAll();
+	}
 
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> addUserData(@Valid @RequestBody UserDataDTO userdto) {
