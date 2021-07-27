@@ -1,6 +1,7 @@
 package com.bridgelabz.Bookstore.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.bridgelabz.Bookstore.dto.ResetPasswordDto;
 import com.bridgelabz.Bookstore.dto.ResponseDTO;
+import com.bridgelabz.Bookstore.dto.UpdateUserDTO;
 import com.bridgelabz.Bookstore.dto.UserDataDTO;
 import com.bridgelabz.Bookstore.dto.UserLoginDTO;
 import com.bridgelabz.Bookstore.model.UserData;
@@ -49,6 +51,13 @@ public class UserDataControllers {
 	public List<UserData> getUserData() {
 		return userRepo.findAll();
 	}
+	
+	@GetMapping("/getUserDataById")
+	public ResponseEntity<ResponseDTO> getUserDataById(@RequestHeader(value = "token") String token) {
+		UserData userData = userservice.getUserById(token);
+		ResponseDTO respdto = new ResponseDTO("Getting User Successfully", userData);
+		return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);
+	}
 
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> addUserData(@Valid @RequestBody UserDataDTO userdto) {
@@ -67,7 +76,8 @@ public class UserDataControllers {
 	@PostMapping("/login")
 	public ResponseEntity<ResponseDTO> userlogin(@Valid @RequestBody UserLoginDTO userLoginDTO) {
 		String userLogin = userservice.userLogin(userLoginDTO);
-		ResponseDTO response = new ResponseDTO("Login successful", userLogin);
+		UserData userData=userservice.getUserById(userLogin);
+		ResponseDTO response = new ResponseDTO( userLogin, userData);
 		return new ResponseEntity<ResponseDTO>(response, HttpStatus.OK);
 	}
 
@@ -88,4 +98,14 @@ public class UserDataControllers {
 		ResponseDTO respdto = new ResponseDTO("New Password has been set successfully", setpassword);
 		return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);
 	}
+	
+	@PutMapping(value = "/updateUserData")
+	public ResponseEntity<ResponseDTO> updateUserData(@RequestHeader("token") String token,
+			@RequestBody UpdateUserDTO userDataDto) {
+
+		UserData response=userservice.updateUserData(token,userDataDto);
+		ResponseDTO respdto = new ResponseDTO("User has been updated successfully",response);
+		return new ResponseEntity<ResponseDTO>(respdto, HttpStatus.OK);
+	}
+	
 }

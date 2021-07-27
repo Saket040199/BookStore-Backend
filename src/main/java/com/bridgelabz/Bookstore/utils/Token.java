@@ -22,7 +22,7 @@ public class Token {
 	
 	public String generateVerificationtoken(UserData userdata) {	
 		long currentTime = System.currentTimeMillis();
-        System.out.println("generate token id:   " + userdata.getUserId());
+//        System.out.println("generate token id:   " + userdata.getUserId());
         return Jwts.builder()
                 .setId(String.valueOf(userdata.getUserId()))
                 .setIssuedAt(new Date())
@@ -36,7 +36,7 @@ public class Token {
             Claims claims = Jwts.parser().setSigningKey("sd5745FAHFW")
             		                     .parseClaimsJws(jwt)
             		                     .getBody();
-            System.out.println("jwt id: " + claims.getId());
+//            System.out.println("jwt id: " + claims.getId());
             return UUID.fromString(claims.getId());
         } catch (ExpiredJwtException e) {
             throw new JwtException("Session time out");

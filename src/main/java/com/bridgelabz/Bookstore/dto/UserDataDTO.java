@@ -24,10 +24,5 @@ public @Data class UserDataDTO {
 	@NotBlank(message = "PhoneNumber cannot be null")
 	private String phoneNumber;
 	
-	public UserDataDTO(String name, String email, String mobileNumber) {
-		this.fullName=name;
-		this.emailId=email;
-		this.phoneNumber=mobileNumber;
-	}
 	
 }

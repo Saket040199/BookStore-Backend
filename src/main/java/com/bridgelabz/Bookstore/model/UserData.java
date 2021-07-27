@@ -13,9 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Type;
 
+import com.bridgelabz.Bookstore.dto.UpdateUserDTO;
 import com.bridgelabz.Bookstore.dto.UserDataDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -42,6 +44,9 @@ public @Data class UserData {
     @ManyToMany
 	private List<WishList> wishList;
     
+    @OneToOne
+    private OrderAddress orderAddress;
+    
     public UserData() { }
     
 	public UserData(UserDataDTO userdto) {
@@ -66,9 +71,12 @@ public @Data class UserData {
 		this.password = password;
 	}
     
-    public UserData(String fullName, String phoneNumber, String emailID) {
-		this.fullName = fullName;
-		this.phoneNumber = phoneNumber;
-		this.emailID = emailID;
+    public UserData(UpdateUserDTO userdto) {
+		this.fullName = userdto.getFullName();
+		this.phoneNumber = userdto.getPhoneNumber();
 	}
+    
+//    public UserData(String token,String fullName) {
+//    	this.fullName=fullName;
+//    }
 }

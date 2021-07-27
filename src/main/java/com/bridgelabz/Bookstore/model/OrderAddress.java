@@ -21,7 +21,6 @@ public class OrderAddress {
 	private String city;
 	private String state;
 	
-	
 	public OrderAddress(OrderAddressDto orderAddressDto, CartDetails cartData) {
 		this.fullName=orderAddressDto.getFullName();
 		this.address=orderAddressDto.getAddress();

@@ -44,11 +44,11 @@ public class WishListService implements IWishListService {
 	@Override
 	public List<WishList> getBooks(String token) {
 		UserData userData = isUserPresent(token);
-		UUID userId = userData.getUserId();
+		//UUID userId = userData.getUserId();
 
 //        if (cartDetailsList.size() == 0)
 //            throw new BookDataException("No Books Found");
-		return wishListRepository.findAll();
+		return userData.getWishList();
 	}
 
 	@Override
@@ -69,13 +69,14 @@ public class WishListService implements IWishListService {
 	@Override
 	public String deleteBookFromWishList(String token, UUID wishListId) {
 		UserData userData = this.isUserPresent(token);
-		UUID userId = userData.getUserId();
-		userDataRepo.deleteById(wishListId);
-		userDataRepo.save(userData);
-		wishListRepository.deleteById(wishListId);
-		
-		
-		return "cart Deleted sucessfully";
+        List<WishList> wishListList=userData.getWishList();
+        WishList wishListData = wishListList.stream()
+                .filter(wishList1 -> wishList1.getWishListId().equals(wishListId))
+                .findFirst().get();
+        wishListList.remove(wishListData);
+        userData.setWishList(wishListList);
+        userDataRepo.save(userData);
+        return "WishList Deleted successfully";
 	}
 
 

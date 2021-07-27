@@ -42,7 +42,7 @@ public class WishListController {
 		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deleteCart/{wishListId}")
+	@DeleteMapping("/deleteWishList/{wishListId}")
 	public ResponseEntity<ResponseDTO> deleteCart(@RequestHeader(value = "token") String token,
 			@PathVariable("wishListId") UUID wishListId) {
 

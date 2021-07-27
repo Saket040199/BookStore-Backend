@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bridgelabz.Bookstore.dto.ResetPasswordDto;
+import com.bridgelabz.Bookstore.dto.UpdateUserDTO;
 import com.bridgelabz.Bookstore.dto.UserDataDTO;
 import com.bridgelabz.Bookstore.dto.UserLoginDTO;
 import com.bridgelabz.Bookstore.exception.UserDataException;
@@ -78,6 +79,19 @@ public class UserService implements IUserDataService {
 	}
 	
 	@Override
+	public UserData getUserById(String tokenId) {
+		UUID token = jwtToken.decodeJWT(tokenId);
+		UserData userData= userdatarepo.findById(token).orElseThrow(() -> new UserDataException("User is not PRESESNT"));
+		
+		if(userData.isVerified=true) {
+			return userData;
+		}else {
+			throw new UserDataException(("User is not Verified")); 
+		}
+		
+	}
+	
+	@Override
 	public String userLogin(UserLoginDTO userLoginDto) {
 		  Optional<UserData> userEmail = userdatarepo.findByEmailID(userLoginDto.getEmailId());
 		  if (!userEmail.isPresent()) {
@@ -117,6 +131,17 @@ public class UserService implements IUserDataService {
 		userdata.setPassword(encodePassword);
 		userdatarepo.save(userdata);
         return "Password is Successfully Reset";
+	}
+
+	@Override
+	public UserData updateUserData(String token,UpdateUserDTO userData) {
+		UUID userId = jwtToken.decodeJWT(token);
+		UserData userdata = userdatarepo.findById(userId)
+				             .orElseThrow(() -> new UserDataException("User not found"));
+		userdata.setFullName(userData.getFullName());
+		userdata.setPhoneNumber(userData.getPhoneNumber());
+		UserData updatedData=userdatarepo.save(userdata);
+		return updatedData;
 	}
 	
 //	@Override
