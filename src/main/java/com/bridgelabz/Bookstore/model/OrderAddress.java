@@ -19,11 +19,14 @@ public class OrderAddress {
 	private String mobNo;
 	private String address;
 	private String city;
-	private String State;
-	private String type;
+	private String state;
 	
-	public OrderAddress(OrderAddressDto orderAddressDto, Optional<OrderAddress> orderAddress) {
 	
-		
+	public OrderAddress(OrderAddressDto orderAddressDto, CartDetails cartData) {
+		this.fullName=orderAddressDto.getFullName();
+		this.address=orderAddressDto.getAddress();
+		this.mobNo=orderAddressDto.getMobNo();
+		this.city=orderAddressDto.getCity();
+		this.state=orderAddressDto.getState(); 	
 	}
 }

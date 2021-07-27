@@ -12,7 +12,7 @@ import com.bridgelabz.Bookstore.model.CartDetails;
 import com.bridgelabz.Bookstore.model.UserData;
 
 public interface CartDetailsRepository extends JpaRepository<CartDetails, UUID>{
-	
+	CartDetails findByCartId(UUID cartId);
 	//Optional<UserData> findByUserData(UserData userData);
 	
 //	@Query(value="select * from user_data where user_id:userId", nativeQuery = true)
