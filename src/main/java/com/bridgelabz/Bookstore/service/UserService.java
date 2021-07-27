@@ -1,5 +1,7 @@
 package com.bridgelabz.Bookstore.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -116,5 +118,19 @@ public class UserService implements IUserDataService {
 		userdatarepo.save(userdata);
         return "Password is Successfully Reset";
 	}
+	
+//	@Override
+//	public List<UserData> getUserData(String token) {
+//		UUID userId = jwtToken.decodeJWT(token);
+//		UserData userData = userdatarepo.findById(userId)
+//				             .orElseThrow(() -> new UserDataException("User not found"));
+//		String name=userData.getFullName();
+//		String email = userData.getEmailID();
+//		String mobileNum=userData.getPhoneNumber();
+//		List<UserData> userDataList= new ArrayList<>();
+//		userDataList.add(name,email,mobileNum);
+//        return userDataList;
+//	}
+
 
 }

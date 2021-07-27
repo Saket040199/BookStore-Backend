@@ -54,20 +54,27 @@ public class WishListService implements IWishListService {
 	@Override
 	public String addBookToWishList(String token, UUID bookId) {
 		UserData userData = this.isUserPresent(token);
-		UUID userId = userData.getUserId();
+//		UUID userId = userData.getUserId();
 		BookData bookData = bookDataRepo.findByBookId(bookId);
 		WishList wishList = new WishList(bookData);
-		wishListRepository.save(wishList);
+		List<WishList> wishListDetails= userData.getWishList();
+		wishListDetails.add(wishList);
+
+		wishListRepository.saveAll(wishListDetails);
 		return "Book added to WishList sucessfully";
 
 	}
 	
 
 	@Override
-	public String deleteCart(String token, UUID cartId) {
+	public String deleteBookFromWishList(String token, UUID wishListId) {
 		UserData userData = this.isUserPresent(token);
 		UUID userId = userData.getUserId();
-		wishListRepository.deleteById(cartId);
+		userDataRepo.deleteById(wishListId);
+		userDataRepo.save(userData);
+		wishListRepository.deleteById(wishListId);
+		
+		
 		return "cart Deleted sucessfully";
 	}
 

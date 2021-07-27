@@ -21,38 +21,35 @@ import com.bridgelabz.Bookstore.service.IWishListService;
 @CrossOrigin
 @RestController
 public class WishListController {
-	
+
 	@Autowired
 	private IWishListService wishListService;
-	
-	
+
 	@GetMapping("/getWishList")
 	public ResponseEntity<ResponseDTO> getBooks(@RequestHeader(value = "token") String token) {
 		List<WishList> cartDetailsList = wishListService.getBooks(token);
 		ResponseDTO responseDTO = new ResponseDTO("Response Successful", cartDetailsList);
 		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
-	
 
 	@PostMapping("/addBookToWishList/{bookId}")
 	public ResponseEntity<ResponseDTO> addBookToWishList(@RequestHeader(value = "token") String token,
-			 @PathVariable UUID bookId) {
+			@PathVariable UUID bookId) {
 
-		String wishListData = wishListService.addBookToWishList(token,bookId);
+		String wishListData = wishListService.addBookToWishList(token, bookId);
 
-		ResponseDTO responseDTO = new ResponseDTO("Response Successful",wishListData);
+		ResponseDTO responseDTO = new ResponseDTO("Response Successful", wishListData);
 		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/deleteCart/{wishListId}")
 	public ResponseEntity<ResponseDTO> deleteCart(@RequestHeader(value = "token") String token,
-			@PathVariable UUID wishListId) {
+			@PathVariable("wishListId") UUID wishListId) {
 
-		String wishListData = wishListService.deleteCart(token, wishListId);
+		String wishListData = wishListService.deleteBookFromWishList(token, wishListId);
 
-		ResponseDTO responseDTO = new ResponseDTO("Response Successful", wishListData );
+		ResponseDTO responseDTO = new ResponseDTO("Response Successful", wishListData);
 		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
-
 
 }

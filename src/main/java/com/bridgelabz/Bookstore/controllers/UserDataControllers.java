@@ -44,6 +44,11 @@ public class UserDataControllers {
 	public List<UserData> getCartData() {
 		return userRepo.findAll();
 	}
+	
+	@GetMapping("/getUserData")
+	public List<UserData> getUserData() {
+		return userRepo.findAll();
+	}
 
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> addUserData(@Valid @RequestBody UserDataDTO userdto) {

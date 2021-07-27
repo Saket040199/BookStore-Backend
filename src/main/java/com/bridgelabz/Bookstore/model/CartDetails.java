@@ -42,6 +42,9 @@ public class CartDetails {
 	@JoinColumn(name="bookId",referencedColumnName = "book_id")
 	private BookData bookData;
 	
+	@OneToOne
+	private OrderAddress orderAddress;
+	
 //	UUID bookId=bookData.getBookId();
 //	@JsonIgnore
 //	@ManyToOne

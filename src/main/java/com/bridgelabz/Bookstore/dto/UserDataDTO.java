@@ -23,4 +23,11 @@ public @Data class UserDataDTO {
 //	@Pattern(regexp = "[+]{0,1}[0-9]{1,}\\s{0,1}[1-9]{1}[0-9]{9}$", message = "PhoneNumber is Invalid")
 	@NotBlank(message = "PhoneNumber cannot be null")
 	private String phoneNumber;
+	
+	public UserDataDTO(String name, String email, String mobileNumber) {
+		this.fullName=name;
+		this.emailId=email;
+		this.phoneNumber=mobileNumber;
+	}
+	
 }

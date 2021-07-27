@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
@@ -35,9 +36,12 @@ public @Data class UserData {
 	public boolean isVerified;
     public LocalDateTime createdAt = LocalDateTime.now();
     
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartDetails> cartDetailsList = new ArrayList<>();
      
+    @ManyToMany
+	private List<WishList> wishList;
+    
     public UserData() { }
     
 	public UserData(UserDataDTO userdto) {
@@ -54,11 +58,17 @@ public @Data class UserData {
 		this.emailID = userdto.getEmailId();
 		this.password = userdto.getPassword();
 	}
-
+	
     public UserData(String fullName, String phoneNumber, String emailID, String password) {
 		this.fullName = fullName;
 		this.phoneNumber = phoneNumber;
 		this.emailID = emailID;
 		this.password = password;
+	}
+    
+    public UserData(String fullName, String phoneNumber, String emailID) {
+		this.fullName = fullName;
+		this.phoneNumber = phoneNumber;
+		this.emailID = emailID;
 	}
 }

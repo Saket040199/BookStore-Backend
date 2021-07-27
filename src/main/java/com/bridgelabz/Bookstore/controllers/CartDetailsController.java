@@ -26,42 +26,45 @@ import com.bridgelabz.Bookstore.service.ICartDetails;
 @RestController
 @RequestMapping("/cart")
 public class CartDetailsController {
-	
+
 	@Autowired
 	ICartDetails cartDetailsService;
-	
-	
+
 	@GetMapping("/getcartdeatails")
-    public ResponseEntity<ResponseDTO> getBooks(@RequestHeader(value = "token") String token) {
-        List<CartDetails> cartDetailsList = cartDetailsService.getAllCarts(token);
-        ResponseDTO responseDTO = new ResponseDTO( "Response Successful",cartDetailsList);
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
-    }
-	
+	public ResponseEntity<ResponseDTO> getBooks(@RequestHeader(value = "token") String token) {
+		List<CartDetails> cartDetailsList = cartDetailsService.getAllCarts(token);
+		ResponseDTO responseDTO = new ResponseDTO("Response Successful", cartDetailsList);
+		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+	}
+
 	@PostMapping("/addBookToCart/{bookId}")
-	public ResponseEntity<ResponseDTO> addBookToCart(@RequestHeader(value="token") String token , @RequestBody CartDetailsDto cartDto, @PathVariable UUID bookId ) {
+	public ResponseEntity<ResponseDTO> addBookToCart(@RequestHeader(value = "token") String token,
+			@RequestBody CartDetailsDto cartDto, @PathVariable UUID bookId) {
+
 		String cartData = cartDetailsService.addBookToCart(token, cartDto, bookId);
-		System.out.println("Token add To cart  "+cartData);
-		ResponseDTO responseDTO = new ResponseDTO( "Response Successful",cartData);
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+
+		ResponseDTO responseDTO = new ResponseDTO("Response Successful", cartData);
+		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/updateCart/{cartId}/{quantity}")
-	public ResponseEntity<ResponseDTO> updateCart(@RequestHeader(value="token") String token, @PathVariable UUID cartId , @PathVariable Long quantity) {
-		
-		String cartData = cartDetailsService.updateCart(token,cartId,quantity);
-		
-		ResponseDTO responseDTO = new ResponseDTO( "Response Successful",cartData);
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+	public ResponseEntity<ResponseDTO> updateCart(@RequestHeader(value = "token") String token,
+			@PathVariable UUID cartId, @PathVariable Long quantity) {
+
+		String cartData = cartDetailsService.updateCart(token, cartId, quantity);
+
+		ResponseDTO responseDTO = new ResponseDTO("Response Successful", cartData);
+		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/deleteCart/{cartId}")
-	public ResponseEntity<ResponseDTO> deleteCart(@RequestHeader(value="token") String token, @PathVariable UUID cartId) {
-		
-		String cartData = cartDetailsService.deleteCart(token,cartId);
-		
-		ResponseDTO responseDTO = new ResponseDTO( "Response Successful",cartData);
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+	public ResponseEntity<ResponseDTO> deleteCart(@RequestHeader(value = "token") String token,
+			@PathVariable UUID cartId) {
+
+		String cartData = cartDetailsService.deleteCart(token, cartId);
+
+		ResponseDTO responseDTO = new ResponseDTO("Response Successful", cartData);
+		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
 
 }

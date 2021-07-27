@@ -11,6 +11,6 @@ public interface IWishListService {
 
 	String addBookToWishList(String token,  UUID bookId);
 
-	String deleteCart(String token, UUID wishListId);
+	String deleteBookFromWishList(String token, UUID wishListId);
 
 }

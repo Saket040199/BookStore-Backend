@@ -1,5 +1,7 @@
 package com.bridgelabz.Bookstore.service;
 
+import java.util.List;
+
 import javax.mail.MessagingException;
 
 import com.bridgelabz.Bookstore.dto.ResetPasswordDto;
@@ -16,4 +18,5 @@ public interface IUserDataService {
 	//public long otpGenerator();
 	//public String resetPassword(String password, String urlToken);
 	public String resetPassword(ResetPasswordDto resetPasswordDto, String token);
+//	List<UserData> getUserData(String token);
 }

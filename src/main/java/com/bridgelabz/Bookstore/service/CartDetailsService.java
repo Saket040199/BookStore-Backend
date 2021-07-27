@@ -47,22 +47,29 @@ public class CartDetailsService implements ICartDetails {
 	public List<CartDetails> getAllCarts(String token) {
 		UserData userData = isUserPresent(token);
 		UUID userId = userData.getUserId();
-		
+
 //        if (cartDetailsList.size() == 0)
 //            throw new BookDataException("No Books Found");
 		return cartDetailsRepo.findAll();
 	}
 
 	@Override
-	public String addBookToCart(String Token, CartDetailsDto cartDto, UUID bookId) {
-		UserData userData = this.isUserPresent(Token);
-		UUID userId = userData.getUserId();
+	public String addBookToCart(String token, CartDetailsDto cartDto, UUID bookId) {
+		UserData userData = this.isUserPresent(token);
+
 		BookData bookData = bookDataRepo.findByBookId(bookId);
+
 //		 System.out.println("Service cart details"+userData);
 //		 System.out.println("Service cart details"+bookData);
+//		CartDetails cartDetail = new CartDetails();
+//		cartDetail.setQuantity(cartDto.getQuantity());
+//		cartDetail.setBookData(bookData);
+//		cartDetail.setStatus(cartDto.getStatus());
 		CartDetails cartDetails = new CartDetails(cartDto, bookData);
-		//System.out.println("Service cart details" + cartDetails);
-		cartDetailsRepo.save(cartDetails);
+		List<CartDetails> cartDetailsList = userData.getCartDetailsList();
+		cartDetailsList.add(cartDetails);
+
+		cartDetailsRepo.saveAll(cartDetailsList);
 		return "Book added to cart sucessfully";
 	}
 
@@ -81,6 +88,7 @@ public class CartDetailsService implements ICartDetails {
 	public String deleteCart(String token, UUID cartId) {
 		UserData userData = this.isUserPresent(token);
 		UUID userId = userData.getUserId();
+		userDataRepo.deleteById(cartId);
 		cartDetailsRepo.deleteById(cartId);
 		return "cart Deleted sucessfully";
 	}
