@@ -38,14 +38,11 @@ public @Data class UserData {
 	public boolean isVerified;
     public LocalDateTime createdAt = LocalDateTime.now();
     
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<CartDetails> cartDetailsList = new ArrayList<>();
      
     @ManyToMany
 	private List<WishList> wishList;
-    
-    @OneToOne
-    private OrderAddress orderAddress;
     
     public UserData() { }
     

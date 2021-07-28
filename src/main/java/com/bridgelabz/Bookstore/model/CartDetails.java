@@ -51,13 +51,13 @@ public class CartDetails {
 //	@JoinColumn(name="userId",referencedColumnName = "userId")
 //	private UserData userData;
 	
-	public UUID getUserId(UserData userData) {
-		return userData.getUserId();
-	}
-	
-	public UUID getBookId(BookData bookData) {
-		return bookData.getBookId();
-	}
+//	public UUID getUserId(UserData userData) {
+//		return userData.getUserId();
+//	}
+//	
+//	public UUID getBookId(BookData bookData) {
+//		return bookData.getBookId();
+//	}
 	
 	public CartDetails( CartDetailsDto cartDetailsdto, BookData bookData) {
 		this.quantity=cartDetailsdto.getQuantity();
