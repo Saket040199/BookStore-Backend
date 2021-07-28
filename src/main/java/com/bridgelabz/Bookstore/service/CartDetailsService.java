@@ -50,7 +50,7 @@ public class CartDetailsService implements ICartDetails {
 
 //        if (cartDetailsList.size() == 0)
 //            throw new BookDataException("No Books Found");
-		return cartDetailsRepo.findAll();
+		return userData.getCartDetailsList();
 	}
 
 	@Override
@@ -87,9 +87,13 @@ public class CartDetailsService implements ICartDetails {
 	@Override
 	public String deleteCart(String token, UUID cartId) {
 		UserData userData = this.isUserPresent(token);
-		UUID userId = userData.getUserId();
-		userDataRepo.deleteById(cartId);
-		cartDetailsRepo.deleteById(cartId);
+		List<CartDetails> cartDetailsList=userData.getCartDetailsList();
+		CartDetails cartDetails=cartDetailsList.stream()
+				.filter(cartDetails1 -> cartDetails1.getCartId().equals(cartId))
+				.findFirst().get();
+		cartDetailsList.remove(cartDetails);
+		userData.setCartDetailsList(cartDetailsList);
+		userDataRepo.save(userData);
 		return "cart Deleted sucessfully";
 	}
 

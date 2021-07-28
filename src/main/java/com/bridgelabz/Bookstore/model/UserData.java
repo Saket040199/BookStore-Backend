@@ -76,7 +76,12 @@ public @Data class UserData {
 		this.phoneNumber = userdto.getPhoneNumber();
 	}
     
-//    public UserData(String token,String fullName) {
-//    	this.fullName=fullName;
-//    }
+    public void addToWishList(WishList wishList) {
+        this.wishList.add(wishList);
+    }
+
+    public void addToCart(CartDetails cartDetails){
+        this.cartDetailsList.add(cartDetails);
+    }
+
 }

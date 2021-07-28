@@ -10,7 +10,14 @@ import javax.persistence.Id;
 
 import com.bridgelabz.Bookstore.dto.OrderAddressDto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderAddress {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
