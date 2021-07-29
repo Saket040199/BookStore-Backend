@@ -12,4 +12,8 @@ public interface IOrderAddressService {
 
 	String addAddress(String token, OrderAddressDto orderAddressDto, UUID cartId);
 
+//	String deleteAddress(String token, UUID addressId);
+//
+//	String updateAddress(String token, UUID addressId, OrderAddressDto orderAddressDto);
+
 }

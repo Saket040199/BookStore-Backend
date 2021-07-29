@@ -44,6 +44,9 @@ public @Data class UserData {
     @ManyToMany
 	private List<WishList> wishList;
     
+    @OneToMany
+    private List<OrderPlaced> placedOrderedList;
+    
     public UserData() { }
     
 	public UserData(UserDataDTO userdto) {

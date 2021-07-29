@@ -58,7 +58,7 @@ public class CartDetailsService implements ICartDetails {
 		UserData userData = this.isUserPresent(token);
 
 		BookData bookData = bookDataRepo.findByBookId(bookId);
-
+		
 //		 System.out.println("Service cart details"+userData);
 //		 System.out.println("Service cart details"+bookData);
 //		CartDetails cartDetail = new CartDetails();
@@ -83,7 +83,16 @@ public class CartDetailsService implements ICartDetails {
 		cartDetailsRepo.save(cartData);
 		return "Cart updated sucessfully";
 	}
-
+	@Override
+	public String updateStatus(String token, UUID cartId, String status) {
+		UserData userData=this.isUserPresent(token);
+		Optional<CartDetails> cartDetailsRepoById = cartDetailsRepo.findById(cartId);
+		CartDetails cartDetails = cartDetailsRepoById.get();
+		cartDetails.setStatus(status);
+		cartDetailsRepo.save(cartDetails);
+		return "Cart Status Updated Successfully.";
+	}
+	
 	@Override
 	public String deleteCart(String token, UUID cartId) {
 		UserData userData = this.isUserPresent(token);
@@ -94,7 +103,17 @@ public class CartDetailsService implements ICartDetails {
 		cartDetailsList.remove(cartDetails);
 		userData.setCartDetailsList(cartDetailsList);
 		userDataRepo.save(userData);
+		cartDetailsRepo.deleteById(cartId);
 		return "cart Deleted sucessfully";
 	}
+	
+//	@Override
+//	public String deleteCart(String token, UUID cartId) {
+//		UserData userData = this.isUserPresent(token);
+//		CartDetails cartDetails=cartDetailsRepo.findByCartId(cartId);
+//		cartDetailsRepo.deleteCart(cartId);
+//		return "cart Deleted sucessfully";
+//	}
+//	
 
 }

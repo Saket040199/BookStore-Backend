@@ -31,6 +31,7 @@ public class OrderAddress {
 	private String address;
 	private String city;
 	private String state;
+	private String type;
 	
 	@OneToOne
 	private CartDetails cartDetails;
@@ -40,6 +41,16 @@ public class OrderAddress {
 		this.address=orderAddressDto.getAddress();
 		this.mobNo=orderAddressDto.getMobNo();
 		this.city=orderAddressDto.getCity();
+		this.state=orderAddressDto.getState(); 
+		this.type=orderAddressDto.getType();
+	}
+	
+	public OrderAddress(OrderAddressDto orderAddressDto) {
+		this.fullName=orderAddressDto.getFullName();
+		this.address=orderAddressDto.getAddress();
+		this.mobNo=orderAddressDto.getMobNo();
+		this.city=orderAddressDto.getCity();
 		this.state=orderAddressDto.getState(); 	
 	}
+	
 }

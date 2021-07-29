@@ -13,11 +13,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.bridgelabz.Bookstore.dto.CartDetailsDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -66,6 +69,7 @@ public class CartDetails {
 		//this.userData=userData;
 	}
 	
+
 	public CartDetails(CartDetailsDto cartDetailsdto) {
 		this.quantity=cartDetailsdto.getQuantity();
 		this.status=cartDetailsdto.getStatus();

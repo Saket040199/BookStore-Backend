@@ -56,6 +56,14 @@ public class CartDetailsController {
 		ResponseDTO responseDTO = new ResponseDTO("Response Successful", cartData);
 		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
+	
+	@PutMapping("/updateStatus/{cartId}/{status}")
+	public ResponseEntity<ResponseDTO> updateStatus(@RequestHeader(value = "tokenId") String tokenId,
+			@PathVariable UUID cartId, @PathVariable String status) {
+		String cartData = cartDetailsService.updateStatus(tokenId, cartId, status);
+		ResponseDTO responseDTO = new ResponseDTO("Response Successful", cartData);
+		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+	}
 
 	@DeleteMapping("/deleteCart/{cartId}")
 	public ResponseEntity<ResponseDTO> deleteCart(@RequestHeader(value = "token") String token,

@@ -67,4 +67,27 @@ public class OrderAddressService implements IOrderAddressService {
 		return "Success";
 	}
 
+//	@Override
+//	public String deleteAddress(String token, UUID addressId) {
+//		UserData userData = isUserPresent(token);
+//		UUID userId = userData.getUserId();
+//		orderAddressRepo.deleteById(addressId);
+//		return "Address Deleted sucessfully";
+//	}
+
+//	@Override
+//	public String updateAddress(String token, UUID addressId, OrderAddressDto orderAddressDto) {
+//		UserData userData = isUserPresent(token);
+//		UUID userId = userData.getUserId();
+//		Optional<OrderAddress> orderAddress= orderAddressRepo.findById(addressId);
+//		OrderAddress newOrderAddress = orderAddress.get();
+//		newOrderAddress.setAddress(orderAddressDto.getAddress());
+//		newOrderAddress.setCity(orderAddressDto.getCity());
+//		newOrderAddress.setFullName(orderAddressDto.getFullName());
+//		newOrderAddress.setMobNo(orderAddressDto.getMobNo());
+//		newOrderAddress.setState(orderAddressDto.getState());
+//		orderAddressRepo.save(newOrderAddress);
+//		return "Address Updated Succesfully";
+//	}
+
 }

@@ -17,5 +17,14 @@ public interface CartDetailsRepository extends JpaRepository<CartDetails, UUID>{
 	
 //	@Query(value="select * from user_data where user_id:userId", nativeQuery = true)
 //	List<CartDetails> findByUserId(UUID userId );
+	
+	@Query(value=" select * from cart_details where book_id:bookId" , nativeQuery = true)
+	public CartDetails findByBookId(UUID bookId);
+	
+	@Query(value=" delete from cart_details where cart_id:cartId" , nativeQuery = true)
+	void deleteCart(UUID cartId);
+	
+//	@Query(value=" select * from cart_details where book_id:bookId" , nativeQuery = true)
+//	void remove(UUID cartId);
 
 }

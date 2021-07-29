@@ -4,6 +4,8 @@ import java.util.UUID;
 
 public interface IOrdredService {
 
-	Long generateId(String token, UUID cartId);
+	String createOrder(String token);
+
+	Long getOrderByToken(String token);
 
 }

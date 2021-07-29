@@ -65,7 +65,6 @@ public class WishListService implements IWishListService {
 
 	}
 	
-
 	@Override
 	public String deleteBookFromWishList(String token, UUID wishListId) {
 		UserData userData = this.isUserPresent(token);
@@ -76,8 +75,8 @@ public class WishListService implements IWishListService {
         wishListList.remove(wishListData);
         userData.setWishList(wishListList);
         userDataRepo.save(userData);
+        wishListRepository.deleteById(wishListId);
         return "WishList Deleted successfully";
 	}
-
 
 }
