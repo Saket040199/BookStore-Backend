@@ -83,5 +83,9 @@ public @Data class UserData {
     public void addToCart(CartDetails cartDetails){
         this.cartDetailsList.add(cartDetails);
     }
+    
+    public void addOrders(OrderPlaced orderPlaced){
+        this.placedOrderedList.add(orderPlaced);
+    }
 
 }

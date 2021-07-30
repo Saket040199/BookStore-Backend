@@ -67,6 +67,14 @@ public class OrderAddressService implements IOrderAddressService {
 		return "Success";
 	}
 
+	@Override
+	public String addAddressDetails(String token, OrderAddressDto orderAddressDto) {
+		UserData userData = isUserPresent(token);
+		OrderAddress orderAddress=new OrderAddress(orderAddressDto);
+		OrderAddress saveAddress=orderAddressRepo.save(orderAddress);	
+		return "Address Added Sucessfully";
+	}
+
 //	@Override
 //	public String deleteAddress(String token, UUID addressId) {
 //		UserData userData = isUserPresent(token);

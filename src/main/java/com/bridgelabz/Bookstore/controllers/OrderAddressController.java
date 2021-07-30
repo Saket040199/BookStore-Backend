@@ -46,6 +46,16 @@ public class OrderAddressController {
 		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
 	}
 	
+	@PostMapping("/addAddress")
+	public ResponseEntity<ResponseDTO> addAddress(@RequestHeader(value = "token") String token,
+			@RequestBody OrderAddressDto orderAddressDto) {
+
+		String cartData = orderAddressService.addAddressDetails(token, orderAddressDto );
+
+		ResponseDTO responseDTO = new ResponseDTO("Response Successful", cartData);
+		return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+	}
+	
 //	@PostMapping("/delete/{addressId}/")
 //	public ResponseEntity<ResponseDTO> deleteAddress(@RequestHeader(value = "token") String token,
 //			@PathVariable("addressId") UUID addressId ) {
