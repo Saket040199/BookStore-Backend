@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,7 +48,7 @@ public class BookDataController {
 	
 	@GetMapping("/{bookId}")
     public ResponseEntity<ResponseDTO> getBookById(@PathVariable UUID bookId) {
-        ResponseDTO responseDTO = new ResponseDTO( "Get Response Successful",bookService.getBookById(bookId));
+        ResponseDTO responseDTO = new ResponseDTO( "Get Book Data Successful",bookService.getBookById(bookId));
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
@@ -84,6 +86,15 @@ public class BookDataController {
 	{
 		List<BookData> addressBookData = bookService.searchBookByName(name);
 		ResponseDTO responseDto = new ResponseDTO("The following names are", addressBookData);
+		return new ResponseEntity<ResponseDTO>(responseDto, HttpStatus.OK);
+	}
+	
+	@PutMapping("/updatequantity/{bookid}/{quantity}")
+	public ResponseEntity<ResponseDTO> updateQuantity(@RequestHeader(value="tokenId") String tokenId,
+													  @PathVariable UUID bookid,
+													  @PathVariable Long quantity){
+		String bookDataQty = bookService.updateQuantity(tokenId, bookid, quantity);
+		ResponseDTO responseDto = new ResponseDTO("Update Quantity", bookDataQty);
 		return new ResponseEntity<ResponseDTO>(responseDto, HttpStatus.OK);
 	}
 

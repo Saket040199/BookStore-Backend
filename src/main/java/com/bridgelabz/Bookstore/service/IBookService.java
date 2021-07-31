@@ -23,5 +23,7 @@ public interface IBookService  {
 	Long getBooksCount();
 	
 	BookData getBookById(UUID bookId);
+	
+	String updateQuantity(String token, UUID bookId, Long quantity);
 
 }

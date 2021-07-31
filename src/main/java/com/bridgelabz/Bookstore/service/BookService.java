@@ -99,6 +99,13 @@ public class BookService implements IBookService {
 			throw new BookDataException("No Books Were Found On The Page");
 		}
 		return bookList;
-
+	}
+	
+	@Override
+	public String updateQuantity(String token, UUID bookId, Long quantity) {
+		BookData bookData=bookDataRepo.findByBookId(bookId);
+		bookData.setBookQuantity(quantity);
+		bookDataRepo.save(bookData);
+		return "Book Quantity Updated";	
 	}
 }
